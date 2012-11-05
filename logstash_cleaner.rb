@@ -61,7 +61,9 @@ private
   def get_indices(elasticsearch_host)
     uri = URI.parse("http://#{elasticsearch_host}:9200/_status")
     response = Net::HTTP.get_response(uri)
-    JSON.parse(response.body)['indices'].keys
+    JSON.parse(response.body)['indices'].keys.select do |key|
+      key.start_with?('logstash')
+    end
   end
 end
 
